@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏪 Store Intelligence - Управление розничной сетью</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Форма входа -->
+    <div class="auth-container" id="authContainer">
+        <div class="auth-header">
+            <h1>🏪 Store Intelligence</h1>
+            <p>Интеллектуальная система управления розничной сетью</p>
+        </div>
+        
+        <div class="form-group">
+            <label>Электронная почта:</label>
+            <input type="email" id="loginEmail" value="admin@company.uz" placeholder="Введите ваш email">
+        </div>
+        
+        <div class="form-group">
+            <label>Пароль:</label>
+            <input type="password" id="loginPassword" value="password" placeholder="Введите пароль">
+        </div>
+        
+        <div class="form-group">
+            <label>Роль в системе:</label>
+            <select id="loginRole">
+                <option value="manager">Менеджер магазина</option>
+                <option value="admin" selected>Администратор сети</option>
+            </select>
+        </div>
+        
+        <button class="btn" onclick="login()">🔐 Войти в систему</button>
+        
+        <div class="test-users">
+            <strong>📋 Тестовые доступы (пароль: password):</strong>
+            <div>👑 Администратор: admin@company.uz</div>
+            <div>👨‍💼 Менеджер: manager@company.uz</div>
+        </div>
+    </div>
+
+    <!-- Основной интерфейс -->
+    <div class="dashboard" id="dashboard">
+        <!-- Шапка -->
+        <div class="header">
+            <div>
+                <h1>🏪 Store Intelligence</h1>
+                <div id="storeInfo">🌐 Вся сеть магазинов</div>
+            </div>
+            <div class="user-menu">
+                <div class="user-avatar" id="userAvatar">👑</div>
+                <div>
+                    <div id="userName" style="font-weight: 600;">Администратор</div>
+                    <div id="userRole" style="font-size: 12px; opacity: 0.8;">Сеть магазинов</div>
+                </div>
+                <button class="logout-btn" onclick="logout()">🚪 Выйти</button>
+            </div>
+        </div>
+
+        <!-- Меню -->
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab('analytics')">📊 Аналитика</button>
+            <button class="nav-tab" onclick="showTab('inventory')">📦 Запасы</button>
+            <button class="nav-tab" onclick="showTab('sales')">💰 Продажи</button>
+            <button class="nav-tab" onclick="showTab('stores')">🏪 Магазины</button>
+            <button class="nav-tab" onclick="showTab('reports')">📈 Отчеты</button>
+        </div>
+
+        <!-- Контент - Аналитика -->
+        <div class="tab-content active" id="analyticsTab">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Выручка сегодня</h3>
+                    <div class="stat-change">+12.5% за неделю</div>
+                    <div class="stat-value" id="revenueValue">12,845,000 UZS</div>
+                    <div style="color: #6b7280; font-size: 14px;">Общая выручка за текущий день</div>
+                </div>
+                
+                <div class="stat-card success">
+                    <h3>Клиенты</h3>
+                    <div class="stat-change">+8.3% к прошлой неделе</div>
+                    <div class="stat-value" id="customersValue">324</div>
+                    <div style="color: #6b7280; font-size: 14px;">Количество уникальных клиентов</div>
+                </div>
+                
+                <div class="stat-card warning">
+                    <h3>Средний чек</h3>
+                    <div class="stat-change">+5.7% рост</div>
+                    <div class="stat-value" id="avgCheckValue">39,645 UZS</div>
+                    <div style="color: #6b7280; font-size: 14px;">Средняя сумма покупки</div>
+                </div>
+                
+                <div class="stat-card danger">
+                    <h3>Товарооборот</h3>
+                    <div class="stat-change">+15.2% увеличение</div>
+                    <div class="stat-value" id="itemsSoldValue">587</div>
+                    <div style="color: #6b7280; font-size: 14px;">Продано товаров за день</div>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <div class="chart-container">
+                    <h3>📈 Динамика продаж за 30 дней</h3>
+                    <div class="chart-placeholder">
+                        <canvas id="salesChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="sidebar">
+                    <div class="widget">
+                        <h3>🔔 Контроль запасов</h3>
+                        <div id="notificationsList">
+                            <!-- Уведомления загружаются через JS -->
+                        </div>
+                    </div>
+
+                    <div class="widget">
+                        <h3>⚡ Быстрые действия</h3>
+                        <div class="quick-actions">
+                            <button class="btn" onclick="addSale()">💰 Новая продажа</button>
+                            <button class="btn btn-success" onclick="createReport()">📊 Создать отчет</button>
+                            <button class="btn btn-warning" onclick="syncData()">🔄 Синхронизировать</button>
+                            <button class="btn" onclick="showTab('inventory')">📦 Управление запасами</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Другие вкладки -->
+        <div class="tab-content" id="inventoryTab">
+            <div class="widget">
+                <h3>📦 Управление товарными запасами</h3>
+                <div id="inventoryContent">
+                    <!-- Контент загружается через JS -->
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="salesTab">
+            <div class="widget">
+                <h3>💰 Управление продажами</h3>
+                <div id="salesContent">
+                    <!-- Контент загружается через JS -->
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="storesTab">
+            <div class="widget">
+                <h3>🏪 Сеть магазинов</h3>
+                <div id="storesContent">
+                    <!-- Контент загружается через JS -->
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="reportsTab">
+            <div class="widget">
+                <h3>📈 Аналитические отчеты</h3>
+                <div id="reportsContent">
+                    <!-- Контент загружается через JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
